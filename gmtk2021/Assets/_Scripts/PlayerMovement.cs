@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
     #region wallrun stuff
     void WallRunInput()
     {
-        if (Input.GetKey(KeyCode.R) && isWallRight) StartWallRun();
-        if (Input.GetKey(KeyCode.R) && isWallLeft) StartWallRun();
+        if (Input.GetMouseButton(1) && isWallRight) StartWallRun();
+        if (Input.GetMouseButton(1) && isWallLeft) StartWallRun();
         else
         {
             anim.SetBool("WallRun", false);
@@ -93,7 +93,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void StartWallRun()
     {
-        anim.SetBool("WallRun", true);
+        if (isWallRight)
+        {
+            anim.SetBool("WallRunRight", true);
+        }
+
+        if (isWallLeft)
+        {
+            anim.SetBool("WallRunLeft", true);
+        }
 
         rb.useGravity = false;
         isWallRunning = true;
@@ -118,7 +126,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.useGravity = true;
         isWallRunning = false;
-        anim.SetBool("WallRun", false);
+        anim.SetBool("WallRunLeft", false);
+        anim.SetBool("WallRunRight", false);
+
     }
     void CheckForWall()// to check if there is a wall next to you
     {
@@ -379,6 +389,11 @@ public class PlayerMovement : MonoBehaviour
     {
         anim.SetBool("IsGrounded", isGrounded);
 
+        if (Input.GetMouseButtonUp(1))
+        {
+            StopWallRun();
+        }
+
         if (leftAltPressed || leftAltPressed && leftShiftPressed)
         {
             anim.SetBool("Crouch", true);
@@ -388,7 +403,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!leftAltPressed && !inStealth)
         {
-
             //GameController.instance.DisableGuardOutlines();
             anim.SetBool("Crouch", false);
         }
