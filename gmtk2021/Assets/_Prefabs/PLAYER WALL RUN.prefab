@@ -1382,9 +1382,9 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 64
-  wallrunForce: 330
+  wallrunForce: 1000
   maxWallrunTime: 10
-  maxWallSpeed: 200
+  maxWallSpeed: 600
   maxWallrunCamTilt: 0
   wallrunCamTilt: 0
   isWallRight: 0
@@ -1417,10 +1417,10 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8772225874133649324}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 3292b4956714eab4ba69be89c689228a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.23713212
+  m_Radius: 0.4836476
   m_Height: 1.8076946
   m_Direction: 1
   m_Center: {x: 0.0056274384, y: 0.89724845, z: 0}

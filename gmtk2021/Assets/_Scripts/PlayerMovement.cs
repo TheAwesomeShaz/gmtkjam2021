@@ -25,16 +25,16 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     public Animator anim;
     public Transform orientation;
-    public Transform enemyLocation;
+    // public Transform enemyLocation;
     //Components
     AudioSource audioSource;
     Transform cam;
 
 
     [Header("Stealth Stuff")]
-    public bool inStealth;
-    public bool isDetected;
-    public bool isAlive;
+    // public bool inStealth;
+    // public bool isDetected;
+    // public bool isAlive;
 
     [Header("Jumping Stuff")]
     public LayerMask whatIsGround;
@@ -86,10 +86,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButton(1) && isWallRight) StartWallRun();
         if (Input.GetMouseButton(1) && isWallLeft) StartWallRun();
-        else
-        {
-            anim.SetBool("WallRun", false);
-        }
+        // else
+        // {
+        //     anim.SetBool("WallRunLeft", false);
+        //     anim.SetBool("WallRunRight", false);
+        // }
     }
     void StartWallRun()
     {
@@ -135,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
         isWallRight = Physics.Raycast(transform.position, orientation.right, 1f, whatIsWall);
         isWallLeft = Physics.Raycast(transform.position, -orientation.right, 1f, whatIsWall);
 
+
         //leave wall run
         if (!isWallLeft && !isWallRight) StopWallRun();
     }
@@ -153,8 +155,8 @@ public class PlayerMovement : MonoBehaviour
         col = GetComponent<CapsuleCollider>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        inStealth = false;
-        isAlive = true;
+        // inStealth = false;
+        // isAlive = true;
         //        GetComponent<Outline>().OutlineWidth = 0;
         audioSource = Camera.main.GetComponent<AudioSource>();
         #endregion
@@ -163,19 +165,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (isAlive && !underKillAnimation)
-        {
-            InputStuff();
-            SetPlayerDirection(); // for player rotation
-            Animate();
-            StealthStuff();
-            CheckForWall();
-            WallRunInput();
-            // JumpInput();
-            CheckGrounded();
-            Jump();
+        // if (isAlive && !underKillAnimation)
 
-        }
+
+        InputStuff();
+        SetPlayerDirection(); // for player rotation
+        Animate();
+        //StealthStuff();
+        CheckForWall();
+        WallRunInput();
+        // JumpInput();
+        CheckGrounded();
+        Jump();
+
+
 
     }
 
@@ -389,6 +392,9 @@ public class PlayerMovement : MonoBehaviour
     {
         anim.SetBool("IsGrounded", isGrounded);
 
+        if (!isWallLeft) { anim.SetBool("WallRunLeft", false); }
+        if (!isWallRight) { anim.SetBool("WallRunRight", false); }
+
         if (Input.GetMouseButtonUp(1))
         {
             StopWallRun();
@@ -401,15 +407,15 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Run", false);
             currentSpeed = crouchSpeed;
         }
-        if (!leftAltPressed && !inStealth)
-        {
-            //GameController.instance.DisableGuardOutlines();
-            anim.SetBool("Crouch", false);
-        }
-        if (!leftAltPressed)
-        {
-            //GameController.instance.DisableGuardOutlines();
-        }
+        // if (!leftAltPressed && !inStealth)
+        // {
+        //     //GameController.instance.DisableGuardOutlines();
+        //     anim.SetBool("Crouch", false);
+        // }
+        // if (!leftAltPressed)
+        // {
+        //     //GameController.instance.DisableGuardOutlines();
+        // }
 
         if (leftShiftPressed && !leftAltPressed && currentSpeed != 0)
         {
@@ -419,10 +425,10 @@ public class PlayerMovement : MonoBehaviour
         if (!leftShiftPressed)
         {
             anim.SetBool("Run", false);
-            if (!inStealth)
-            {
-                currentSpeed = walkSpeed;
-            }
+            // if (!inStealth)
+            // {
+            //     currentSpeed = walkSpeed;
+            // }
 
         }
         if (currentSpeed == 0)
@@ -432,32 +438,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void StealthStuff()
-    {
-        if (inStealth)
-        {
-            currentSpeed = crouchSpeed;
-            anim.SetBool("Crouch", true);
-            if (leftShiftPressed)
-            {
-                currentSpeed = runSpeed;
-                anim.SetBool("Crouch", false);
-                anim.SetBool("Run", true);
-                inStealth = false;
-            }
-            //         GetComponent<Outline>().OutlineWidth = 3;
-        }
+    //     private void StealthStuff()
+    //     {
+    //         if (inStealth)
+    //         {
+    //             currentSpeed = crouchSpeed;
+    //             anim.SetBool("Crouch", true);
+    //             if (leftShiftPressed)
+    //             {
+    //                 currentSpeed = runSpeed;
+    //                 anim.SetBool("Crouch", false);
+    //                 anim.SetBool("Run", true);
+    //                 inStealth = false;
+    //             }
+    //             //         GetComponent<Outline>().OutlineWidth = 3;
+    //         }
 
-        if (isDetected)
-        {
-            //GameController.instance.DisplayLoseScreen();
-        }
+    //         if (isDetected)
+    //         {
+    //             //GameController.instance.DisplayLoseScreen();
+    //         }
 
-        if (!inStealth)
-        {
-            //            GetComponent<Outline>().OutlineWidth = 0;
-        }
-    }
+    //         if (!inStealth)
+    //         {
+    //             //            GetComponent<Outline>().OutlineWidth = 0;
+    //         }
+    //     }
+    // // 
 
     private void SetPlayerDirection()
     {
@@ -479,6 +486,22 @@ public class PlayerMovement : MonoBehaviour
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
         }
+
+        if (isWallRunning)
+        {
+            //WALLRUN ROTATION
+            // if (isWallLeft)
+            // {
+            //     transform.rotation = Quaternion.FromToRotation(Vector3.right, hit.normal);
+            // }
+            // //and this for the opposite side
+            // if (isWallRight)
+            // {
+            //     transform.rotation = Quaternion.FromToRotation(-Vector3.right, hit.normal);
+            // }
+
+        }
+
     }
 
     private void InputStuff()
@@ -491,66 +514,64 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void PlayerDie()
-    {
-        if (isAlive)
-        {
-            anim.SetTrigger("Die");
-            isAlive = false;
-            GetComponent<Rigidbody>().isKinematic = true;
-            // GameController.instance.DisplayDeathScreen();
-        }
+    // public void PlayerDie()
+    // {
+    //     if (isAlive)
+    //     {
+    //         anim.SetTrigger("Die");
+    //         isAlive = false;
+    //         GetComponent<Rigidbody>().isKinematic = true;
+    //         // GameController.instance.DisplayDeathScreen();
+    //     }
 
-    }
+    // }
 
-    public void StealthKill()
-    {
-        inStealth = false;
-        anim.SetBool("Crouch", false);
-        anim.SetTrigger("StealthKill");
-        underKillAnimation = true;
-    }
+    // public void StealthKill()
+    // {
+    //     inStealth = false;
+    //     anim.SetBool("Crouch", false);
+    //     anim.SetTrigger("StealthKill");
+    //     underKillAnimation = true;
+    // }
 
-    public void NotUnderKillAnimation()
-    {
-        underKillAnimation = false;
-    }
+    // public void NotUnderKillAnimation()
+    // {
+    //     underKillAnimation = false;
+    // }
 
     private void FixedUpdate()
     {
         #region move player
 
-        if (!underKillAnimation)
+
+        if (xAxis != 0 || zAxis != 0)
         {
-
-            if (xAxis != 0 || zAxis != 0)
+            anim.SetBool("Move", true);
+            // if (inStealth)
+            // {
+            //     currentSpeed = crouchSpeed;
+            //     anim.SetBool("Crouch", true);
+            // }
+            if (!isWallRunning)
             {
-                anim.SetBool("Move", true);
-                if (inStealth)
-                {
-                    currentSpeed = crouchSpeed;
-                    anim.SetBool("Crouch", true);
-                }
-                if (!isWallRunning)
-                {
-                    rb.MovePosition(transform.position + Time.deltaTime * currentSpeed *
-                        moveDir.normalized);
+                rb.MovePosition(transform.position + Time.deltaTime * currentSpeed *
+                    moveDir.normalized);
 
-                }
             }
-            else
-            {
-                currentSpeed = 0f;
-                anim.SetBool("Move", false);
-                if (inStealth)
-                {
-                    anim.SetBool("Crouch", true);
-                }
-            }
-
-
-
         }
+        else
+        {
+            currentSpeed = 0f;
+            anim.SetBool("Move", false);
+            // if (inStealth)
+            // {
+            //     anim.SetBool("Crouch", true);
+            // }
+        }
+
+
+
+
         #endregion
 
     }
@@ -561,25 +582,25 @@ public class PlayerMovement : MonoBehaviour
         return;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "StealthBush" && !underKillAnimation && isAlive)
-        {
-            inStealth = true;
-            anim.SetBool("Crouch", true);
-        }
-    }
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.gameObject.tag == "StealthBush" && !underKillAnimation && isAlive)
+    //     {
+    //         inStealth = true;
+    //         anim.SetBool("Crouch", true);
+    //     }
+    // }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "StealthBush")
-        {
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (other.gameObject.tag == "StealthBush")
+    //     {
 
-            inStealth = false;
-            anim.SetBool("Crouch", false);
-        }
+    //         inStealth = false;
+    //         anim.SetBool("Crouch", false);
+    //     }
 
-    }
+    // }
 
 }
 
