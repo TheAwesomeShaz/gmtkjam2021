@@ -6,16 +6,26 @@ public class PlayerHover : MonoBehaviour
 {
 
     Animator anim;
+    HoverBoard hoverBoard;
     [SerializeField] bool canDeflect;
+
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        hoverBoard = GetComponentInParent<HoverBoard>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Controls();
+    }
+
+    private void Controls()
+    {
+
         if (Input.GetMouseButtonDown(0) && !canDeflect)
         {
             anim.SetTrigger("Slash");
@@ -40,6 +50,8 @@ public class PlayerHover : MonoBehaviour
 
     public void Die()
     {
-        anim.enabled = !anim.enabled;
+        anim.enabled = false;
     }
+
+
 }

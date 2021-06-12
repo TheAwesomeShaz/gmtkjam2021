@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
+
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

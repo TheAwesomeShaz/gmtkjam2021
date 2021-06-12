@@ -9,7 +9,11 @@ public class HoverBoard : MonoBehaviour
     [SerializeField] float multiplier;
     [SerializeField] float moveForce, turnTorque;
     [SerializeField] bool shiftPressed;
+    public bool isAlive = true;
+    Bird bird;
 
+    public bool canTeleport;
+    public Transform teleportTarget;
 
     public Transform[] anchors = new Transform[4];
 
@@ -18,13 +22,14 @@ public class HoverBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bird = FindObjectOfType<Bird>();
         rb = GetComponent<Rigidbody>();
         player = GetComponentInChildren<PlayerHover>();
     }
 
     void ApplyForce(Transform anchor, RaycastHit hit)
     {
-        if (Physics.Raycast(anchor.position, -anchor.up, out hit))
+        if (Physics.Raycast(anchor.position, -anchor.up, out hit, 4f))
         {
             float force = 0;
             force = Mathf.Abs(1 / (hit.point.y - anchor.position.y));
@@ -38,10 +43,33 @@ public class HoverBoard : MonoBehaviour
     {
         shiftPressed = Input.GetKey(KeyCode.LeftShift);
 
-        // if (transform.rotation.eulerAngles.x >= 90 || transform.rotation.eulerAngles.x <= -90 || transform.rotation.eulerAngles.z >= 90 || transform.rotation.eulerAngles.z <= -90)
-        // {
-        //     player.Die();
-        // }
+        if (transform.up.y < 0f)
+        {
+            player.Die();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && canTeleport)
+        {
+            Teleport(teleportTarget);
+        }
+
+    }
+
+
+    public void Teleport(Transform target)
+    {
+        Vector3 teleportpos = target.position;
+        Destroy(target.gameObject);
+        // bird.gameObject.SetActive(false);
+        transform.position = teleportpos;
+        bird.ResetTransform();
+        canTeleport = false;
+    }
+
+    IEnumerator IncreaseMultiplierAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        multiplier = 2.5f;
 
     }
 
