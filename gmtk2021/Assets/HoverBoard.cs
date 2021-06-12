@@ -5,6 +5,7 @@ using UnityEngine;
 public class HoverBoard : MonoBehaviour
 {
     Rigidbody rb;
+    PlayerHover player;
     [SerializeField] float multiplier;
     [SerializeField] float moveForce, turnTorque;
     [SerializeField] bool shiftPressed;
@@ -18,6 +19,7 @@ public class HoverBoard : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        player = GetComponentInChildren<PlayerHover>();
     }
 
     void ApplyForce(Transform anchor, RaycastHit hit)
