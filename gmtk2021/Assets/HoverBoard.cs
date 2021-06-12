@@ -37,6 +37,12 @@ public class HoverBoard : MonoBehaviour
     void Update()
     {
         shiftPressed = Input.GetKey(KeyCode.LeftShift);
+
+        // if (transform.rotation.eulerAngles.x >= 90 || transform.rotation.eulerAngles.x <= -90 || transform.rotation.eulerAngles.z >= 90 || transform.rotation.eulerAngles.z <= -90)
+        // {
+        //     player.Die();
+        // }
+
     }
 
     // Update is called once per frame

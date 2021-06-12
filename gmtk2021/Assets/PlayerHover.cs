@@ -38,7 +38,7 @@ public class PlayerHover : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         anim.enabled = !anim.enabled;
     }
