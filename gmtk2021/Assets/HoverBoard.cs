@@ -45,7 +45,7 @@ public class HoverBoard : MonoBehaviour
 
         if (transform.up.y < 0f)
         {
-            player.Die();
+            KillPlayer();
         }
 
         if (Input.GetKeyDown(KeyCode.E) && canTeleport)
@@ -55,6 +55,11 @@ public class HoverBoard : MonoBehaviour
 
     }
 
+    public void KillPlayer()
+    {
+        player.Die();
+        isAlive = false;
+    }
 
     public void Teleport(Transform target)
     {

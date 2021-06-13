@@ -34,10 +34,10 @@ public class PlayerHover : MonoBehaviour
         {
             anim.SetTrigger("Deflect");
         }
-        if (Input.GetMouseButton(1))
-        {
-            canDeflect = true;
-        }
+        // if (Input.GetMouseButton(1))
+        // {
+        //     canDeflect = true;
+        // }
         if (Input.GetMouseButtonUp(1))
         {
             canDeflect = false;
@@ -51,6 +51,31 @@ public class PlayerHover : MonoBehaviour
     public void Die()
     {
         anim.enabled = false;
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Bullet>())
+        {
+            canDeflect = true;
+            Bullet bullet = other.gameObject.GetComponent<Bullet>();
+            if (Input.GetMouseButtonDown(0) && canDeflect)
+            {
+                bullet.MoveTowardsEnemy();
+                bullet.isDeflected = true;
+
+            }
+
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.GetComponent<Bullet>())
+        {
+            hoverBoard.KillPlayer();
+        }
     }
 
 
