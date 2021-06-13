@@ -10,10 +10,17 @@ public class GameController : MonoBehaviour
 {
     VolumeProfile profile;
 
+    public AudioClip slowMoOn;
+    public AudioClip slowMoOff;
+
+    public AudioSource sfx;
+
+
     CamFollow cam;
     HoverBoard player;
     public bool isDetected;
     public float musicVolume = 0.7f;
+    bool slomosfxplayed;
 
     public float decreasePitch = 0.7f;
 
@@ -48,13 +55,12 @@ public class GameController : MonoBehaviour
         else if (!isDetected)
         {
             DecreaseDrumsOverTime();
-            Debug.Log("decreasing drums");
         }
 
 
 
-        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
 
         drumsMusic.pitch += (1f / slowdownLength) * Time.unscaledDeltaTime;
         ambientMusic.pitch += (1f / slowdownLength) * Time.unscaledDeltaTime;
@@ -98,7 +104,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RestartLevel();
+            ReloadLevel();
         }
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -109,7 +115,15 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             SlowDownTime();
-            Debug.Log("SlowingDown Time");
+        }
+        if (Input.GetMouseButtonDown(1) && !slomosfxplayed)
+        {
+            PlaySlomoSFX(1);
+            slomosfxplayed = true;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            PlaySlomoSFX(0);
         }
 
         if (Input.GetKey(KeyCode.Q))
@@ -128,6 +142,7 @@ public class GameController : MonoBehaviour
 
     void SlowDownTime()
     {
+        // PlaySlomoSFX(1);
         Time.timeScale = slowdownFactor;
         ambientMusic.pitch = decreasePitch;
         drumsMusic.pitch = decreasePitch;
@@ -138,11 +153,35 @@ public class GameController : MonoBehaviour
 
     }
 
-    private static void RestartLevel()
+    private static void ReloadLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void RestartLevel()
+    {
+        StartCoroutine(ReloadLevelAfterTime());
+    }
+
+    IEnumerator ReloadLevelAfterTime()
+    {
+        yield return new WaitForSeconds(4f);
+        ReloadLevel();
+    }
+
+    public void PlaySlomoSFX(int i)
+    {
+        if (i == 1)
+        {
+            sfx.PlayOneShot(slowMoOn, 1.5f);
+        }
+        if (i == 0)
+        {
+            sfx.PlayOneShot(slowMoOff, 1.5f);
+            slomosfxplayed = false;
+        }
+
+    }
 
 
 }

@@ -20,31 +20,10 @@ public class PlayerHover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Controls();
+
     }
 
-    private void Controls()
-    {
 
-        // if (Input.GetMouseButtonDown(0) && !canDeflect)
-        // {
-        //     Slash();
-        // }
-        // if (Input.GetMouseButtonDown(0) && canDeflect)
-        // {
-        //     DeflectAnim();
-        // }
-
-        // if (Input.GetMouseButtonUp(1))
-        // {
-        //     canDeflect = false;
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.X))
-        // {
-        //     Die();
-        // }
-    }
 
     public void DeflectAnim()
     {

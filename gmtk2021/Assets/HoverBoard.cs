@@ -5,6 +5,8 @@ using UnityEngine;
 public class HoverBoard : MonoBehaviour
 {
     Rigidbody rb;
+    [SerializeField] AudioSource hoverboardSFX;
+    [SerializeField] AudioClip hoverboardClip;
     PlayerHover player;
     [SerializeField] float multiplier;
     [SerializeField] float moveForce, turnTorque;
@@ -19,12 +21,15 @@ public class HoverBoard : MonoBehaviour
 
     RaycastHit[] hits = new RaycastHit[4];
 
+    GameController gameController;
+
     // Start is called before the first frame update
     void Start()
     {
         bird = FindObjectOfType<Bird>();
         rb = GetComponent<Rigidbody>();
         player = GetComponentInChildren<PlayerHover>();
+        gameController = FindObjectOfType<GameController>();
     }
 
     void ApplyForce(Transform anchor, RaycastHit hit)
@@ -46,6 +51,7 @@ public class HoverBoard : MonoBehaviour
         if (transform.up.y < 0f)
         {
             KillPlayer();
+            gameController.RestartLevel();
         }
 
         if (Input.GetKeyDown(KeyCode.E) && canTeleport)
@@ -53,12 +59,16 @@ public class HoverBoard : MonoBehaviour
             Teleport(teleportTarget);
         }
 
+        hoverboardSFX.pitch = rb.velocity.z / 5f;
+        Mathf.Clamp(hoverboardSFX.pitch, 1f, 2f);
+
     }
 
     public void KillPlayer()
     {
         player.Die();
         isAlive = false;
+
     }
 
     public void Teleport(Transform target)
