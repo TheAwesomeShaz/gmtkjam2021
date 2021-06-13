@@ -5,72 +5,51 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public bool isDeflected;
-    [SerializeField] float bulletSpeed;
-    [SerializeField] float bulletLifetime = 10f;
-    [SerializeField] Vector3 bulletOffset = new Vector3(0f, 2f, 0f);
+    public float bulletSpeed;
+    public float bulletLifetime = 10f;
+    public Vector3 bulletOffset = new Vector3(0f, 2f, 0f);
+    private Vector3 oldPosition = Vector3.zero;
+    public Transform Playerboi;
+    public Transform Camboi;
 
-    Transform player;
-    [SerializeField] Transform enemy;
+    public Material[] matarr;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerHover>().transform;
-        enemy = FindObjectOfType<Enemy>().transform;
-        StartCoroutine(DestroyBulletAfterTime(bulletLifetime));
+        Playerboi = FindObjectOfType<PlayerHover>().transform;
+        Camboi = FindObjectOfType<Camera>().transform;
+        Destroy(gameObject, bulletLifetime);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!isDeflected)
-        {
-            MoveForward();
-        }
+        this.transform.position += this.transform.forward * Time.deltaTime * bulletSpeed;
         if (isDeflected)
         {
-            MoveTowardsEnemy();
+            // this.gameObject.GetComponent<MeshRenderer>().material = matarr[1];
+            // this.gameObject.GetComponent<TrailRenderer>().material = matarr[1];
         }
-    }
-
-    public void MarkEnemy(Transform target)
-    {
-        this.enemy = target;
-    }
-
-    void MoveForward()
-    {
-
-        transform.position = Vector3.Lerp(transform.position, player.position, bulletSpeed * Time.deltaTime);
-
-        // transform.position = Vector3.MoveTowards(transform.position, enemy.GetComponent<Enemy>().bulletPos.forward, bulletSpeed * Time.deltaTime);
-
-    }
-
-    public void MoveTowardsEnemy()
-    {
-        if (isDeflected && enemy.GetComponent<Enemy>().isAlive)
+        else
         {
-            // transform.position += enemy.position * bulletSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, enemy.position + bulletOffset, bulletSpeed * Time.deltaTime);
-
+            // this.gameObject.GetComponent<MeshRenderer>().material = matarr[0];
+            // this.gameObject.GetComponent<TrailRenderer>().material = matarr[0];
         }
-        if (transform.position == enemy.position + bulletOffset)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy") && isDeflected)
         {
-            Destroy(gameObject);
+            other.GetComponent<Enemy>().Die();
+            Destroy(this.gameObject);
+        }
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.GetComponent<HoverBoard>().KillPlayer();
+            other.GetComponent<PlayerHover>().Die();
+            Debug.Log("akjsdbakjsdnbaksjdb");
+            Destroy(this.gameObject);
         }
     }
-
-    IEnumerator DestroyBulletAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        DestroyBullet();
-    }
-
-    public void DestroyBullet()
-    {
-        //make destroyed particle effect
-        Destroy(gameObject);
-    }
-
-
 }

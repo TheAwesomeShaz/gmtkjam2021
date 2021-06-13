@@ -57,6 +57,7 @@ public class HoverBoard : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && canTeleport)
         {
             Teleport(teleportTarget);
+            gameController.PlayTeleportSFX();
         }
 
         hoverboardSFX.pitch = rb.velocity.z / 5f;
@@ -68,7 +69,7 @@ public class HoverBoard : MonoBehaviour
     {
         player.Die();
         isAlive = false;
-
+        gameController.RestartLevel();
     }
 
     public void Teleport(Transform target)

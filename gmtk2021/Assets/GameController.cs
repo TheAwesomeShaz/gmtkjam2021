@@ -2,13 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 
-using UnityEngine.SceneManagement;
+
 
 public class GameController : MonoBehaviour
 {
-    VolumeProfile profile;
+    // VolumeProfile profile;
+
+    int currentSceneIndex;
+
+    [SerializeField] GameObject aboutButton;
+    [SerializeField] GameObject aboutMenu;
+
+    public GameObject endLevelScreen;
+    [SerializeField] GameObject pauseMenu;
+    bool isPaused;
 
     public AudioClip slowMoOn;
     public AudioClip slowMoOff;
@@ -30,6 +40,8 @@ public class GameController : MonoBehaviour
     [SerializeField] float slowdownFactor = 0.05f;
     // [SerializeField] AudioSource gameMusic;
     [SerializeField] float slowdownLength;
+    [SerializeField] AudioClip deflectSFX;
+    [SerializeField] AudioClip teleportSFX;
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +49,31 @@ public class GameController : MonoBehaviour
         cam = FindObjectOfType<CamFollow>();
         player = FindObjectOfType<HoverBoard>();
 
+        if (pauseMenu)
+        {
+            pauseMenu.SetActive(false);
+        }
+
         ambientMusic.volume = 0.7f;
         drumsMusic.volume = 0f;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (currentSceneIndex != 0)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1;
+        }
+
+        if (currentSceneIndex == 0)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+
+        endLevelScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -57,10 +89,34 @@ public class GameController : MonoBehaviour
             DecreaseDrumsOverTime();
         }
 
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     isPaused = !isPaused;
+        //     if (isPaused)
+        //     {
+        //         Pause();
+        //     }
+        //     else
+        //     {
+        //         Resume();
+        //     }
+        // }
 
+        if (isPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+
+
+
+        if (!isPaused)
+        {
+            Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
+        }
 
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
-        Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
 
         drumsMusic.pitch += (1f / slowdownLength) * Time.unscaledDeltaTime;
         ambientMusic.pitch += (1f / slowdownLength) * Time.unscaledDeltaTime;
@@ -106,11 +162,19 @@ public class GameController : MonoBehaviour
         {
             ReloadLevel();
         }
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
 
+
+        // if (Input.GetKey(KeyCode.Escape))
+        // {
+        //     Cursor.lockState = CursorLockMode.None;
+        // }
+
+        if (Input.GetMouseButton(0) && currentSceneIndex != 0)
+        {
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         if (Input.GetMouseButton(1))
         {
@@ -183,5 +247,66 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void EndLevel()
+    {
+        endLevelScreen.SetActive(true);
+        StartCoroutine(LoadMenuAfterTime());
+    }
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator LoadMenuAfterTime()
+    {
+        yield return new WaitForSeconds(5f);
+        LoadMainMenu();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
+        SlowDownTime();
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+    }
+
+    public void PlayDeflectSFX()
+    {
+        sfx.PlayOneShot(deflectSFX, 1.5f);
+    }
+
+    public void PlayTeleportSFX()
+    {
+        sfx.PlayOneShot(teleportSFX, 1.5f);
+    }
+
+    public void About()
+    {
+        aboutButton.SetActive(false);
+        aboutMenu.SetActive(true);
+    }
+
+    public void Back()
+    {
+        aboutButton.SetActive(true);
+        aboutMenu.SetActive(false);
+    }
 
 }
