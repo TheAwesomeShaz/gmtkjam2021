@@ -6,27 +6,26 @@ using UnityEngine;
 public class Deflection : MonoBehaviour
 {
     public PlayerHover mainChar;
+    public List<GameObject> myBullets = new List<GameObject>();
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-
-        if (other.GetComponent<Bullet>())
+        foreach (GameObject bullet in myBullets)
         {
-            Debug.DrawLine(this.transform.position, other.transform.position);
             mainChar.canDeflect = true;
-            Bullet bullet = other.gameObject.GetComponent<Bullet>();
-            if (Input.GetMouseButton(0) && mainChar.canDeflect)
+            Bullet myOwnBullet = bullet.GetComponent<Bullet>();
+            if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine(MoveTowardsEnemyStart(bullet));
+                myOwnBullet.isDeflected = true;
+                StartCoroutine(MoveTowardsEnemyStart(myOwnBullet));
                 mainChar.DeflectAnim();
             }
-
         }
-        else { return; }
     }
 
-    // private void OnTriggerEnter(Collider other)
+    // private void OnTriggerStay(Collider other)
     // {
+
     //     if (other.GetComponent<Bullet>())
     //     {
     //         Debug.DrawLine(this.transform.position, other.transform.position);
@@ -39,13 +38,34 @@ public class Deflection : MonoBehaviour
     //         }
 
     //     }
+    //     else { return; }
     // }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Bullet>())
+        {
+            myBullets.Add(other.gameObject);
+
+            Debug.DrawLine(this.transform.position, other.transform.position);
+
+            // mainChar.canDeflect = true;
+            // Bullet bullet = other.gameObject.GetComponent<Bullet>();
+            // if (Input.GetMouseButton(0) && mainChar.canDeflect)
+            // {
+            //     StartCoroutine(MoveTowardsEnemyStart(bullet));
+            //     mainChar.DeflectAnim();
+            // }
+
+        }
+    }
 
 
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Bullet>())
         {
+            myBullets.Remove(other.gameObject);
             mainChar.canDeflect = false;
 
         }
