@@ -17,17 +17,22 @@ private void Start() {
         
         foreach (GameObject bullet in myBullets)
         {
-            Debug.DrawLine(this.transform.position,bullet.transform.position,Color.red);
             mainChar.canDeflect = true;
-            Bullet myOwnBullet = bullet.GetComponent<Bullet>();
-            if (Input.GetMouseButton(0))
-            {
-                mainChar.DeflectAnim();
-                if(!myOwnBullet.isDeflected){
-                    myOwnBullet.transform.forward *= -1;
-                    myOwnBullet.isDeflected = true;
-                } 
+            try{
+                Bullet myOwnBullet = bullet.GetComponent<Bullet>();
+                if (Input.GetMouseButton(0))
+                {
+                    mainChar.DeflectAnim();
+                    if (!myOwnBullet.isDeflected)
+                    {
+                        myOwnBullet.transform.forward *= -1;
+                        myOwnBullet.isDeflected = true;
+                    }
+                }
+            }catch{
+                myBullets.Remove(bullet);
             }
+            
         }
     }
 
