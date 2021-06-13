@@ -48,13 +48,13 @@ public class Enemy : MonoBehaviour
             Die();
         }
 
-        if (other.gameObject.GetComponent<Deflection>())
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Die();
-            }
-        }
+        // if (other.gameObject.GetComponent<Deflection>())
+        // {
+        //     if (Input.GetMouseButtonDown(0))
+        //     {
+        //         Die();
+        //     }
+        // }
     }
 
     private void OnTriggerEnter(Collider other)

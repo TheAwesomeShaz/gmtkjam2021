@@ -54,7 +54,7 @@ public class Bullet : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, enemy.position + bulletOffset, bulletSpeed * Time.deltaTime);
 
         }
-        if (transform.position == enemy.position)
+        if (transform.position == enemy.position + bulletOffset)
         {
             Destroy(gameObject);
         }
