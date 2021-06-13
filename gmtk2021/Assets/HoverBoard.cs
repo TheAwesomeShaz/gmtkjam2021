@@ -5,7 +5,7 @@ using UnityEngine;
 public class HoverBoard : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] AudioSource hoverboardSFX;
+    //[SerializeField] AudioSource hoverboardSFX;
     [SerializeField] AudioClip hoverboardClip;
     PlayerHover player;
     [SerializeField] float multiplier;
@@ -59,8 +59,8 @@ public class HoverBoard : MonoBehaviour
             Teleport(teleportTarget);
         }
 
-        hoverboardSFX.pitch = rb.velocity.z / 5f;
-        Mathf.Clamp(hoverboardSFX.pitch, 1f, 2f);
+        //hoverboardSFX.pitch = rb.velocity.z / 5f;
+        //Mathf.Clamp(hoverboardSFX.pitch, 1f, 2f);
 
     }
 

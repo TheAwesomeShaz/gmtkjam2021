@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] Bullet bullet;
     public Transform bulletPos;
-
     public bool isAlive;
 
 
@@ -35,56 +34,27 @@ public class Enemy : MonoBehaviour
             transform.LookAt(target);
             StartCoroutine(WaitAndShoot(timeBtwnShots));
         }
-
-
-
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.GetComponent<Bullet>() && other.gameObject.GetComponent<Bullet>().isDeflected && isAlive)
-        {
-            Destroy(other.gameObject);
-            Die();
-        }
-
-        // if (other.gameObject.GetComponent<Deflection>())
-        // {
-        //     if (Input.GetMouseButtonDown(0))
-        //     {
-        //         Die();
-        //     }
-        // }
-    }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         // if (other.GetComponent<HoverBoard>() && other.GetComponent<HoverBoard>().isAlive)
-        if (other.GetComponent<HoverBoard>())
+        if (other.GetComponent<PlayerHover>())
         {
             playerInRange = true;
             target = other.transform;
         }
-        if (other.gameObject.GetComponent<Bullet>() && other.gameObject.GetComponent<Bullet>().isDeflected && isAlive)
-        {
-            Destroy(other.gameObject);
-            Die();
-        }
-
-
     }
-
     IEnumerator WaitAndShoot(float time)
     {
         yield return new WaitForSeconds(time);
         anim.SetTrigger("Shoot");
-        //shoot function will be called via an animation event
     }
 
     private void Shoot()
     {
         Bullet thisBullet = Instantiate(bullet, bulletPos.position, Quaternion.identity);
-        bullet.MarkEnemy(transform);
+        thisBullet.transform.forward = (target.transform.position - this.transform.position).normalized;
 
     }
 

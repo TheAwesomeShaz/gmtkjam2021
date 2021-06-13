@@ -768,6 +768,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6255144188301884650, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.y
+      value: 2.974292
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255144188301884650, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -9.133064
+      objectReference: {fileID: 0}
     - target: {fileID: 6255144188637098196, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
       propertyPath: m_Name
       value: ThirPerCam
@@ -910,11 +918,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255144189428600346, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00001986829
+      value: -0.00001988563
       objectReference: {fileID: 0}
     - target: {fileID: 6255144189428600346, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000029076202
+      value: 0.0000029101582
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255144189570927758, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.y
+      value: 2.974292
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255144189570927758, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -9.133064
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255144189910321282, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.y
+      value: 2.974292
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255144189910321282, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -9.133064
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0be07e254c395e74ea7dbe6e2e80ee9d, type: 3}
@@ -1562,6 +1586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346667ea168b84e4daa2b389a7ed3f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slowMoOn: {fileID: 0}
+  slowMoOff: {fileID: 0}
+  sfx: {fileID: 0}
   isDetected: 0
   musicVolume: 0.7
   decreasePitch: 0.7
@@ -11363,11 +11390,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3233228296326722207, guid: dc9df08419ea3ce4393adcadcd9e8c11, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00001985268
+      value: -0.000019875923
       objectReference: {fileID: 0}
     - target: {fileID: 3233228296326722207, guid: dc9df08419ea3ce4393adcadcd9e8c11, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000030234744
+      value: 0.000003027014
       objectReference: {fileID: 0}
     - target: {fileID: 3233228296326722207, guid: dc9df08419ea3ce4393adcadcd9e8c11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
