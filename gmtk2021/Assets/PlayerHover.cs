@@ -7,7 +7,7 @@ public class PlayerHover : MonoBehaviour
 
     Animator anim;
     HoverBoard hoverBoard;
-    [SerializeField] bool canDeflect;
+    public bool canDeflect;
 
 
     // Start is called before the first frame update
@@ -26,26 +26,34 @@ public class PlayerHover : MonoBehaviour
     private void Controls()
     {
 
-        if (Input.GetMouseButtonDown(0) && !canDeflect)
-        {
-            anim.SetTrigger("Slash");
-        }
-        else if (Input.GetMouseButtonDown(0) && canDeflect)
-        {
-            anim.SetTrigger("Deflect");
-        }
-        // if (Input.GetMouseButton(1))
+        // if (Input.GetMouseButtonDown(0) && !canDeflect)
         // {
-        //     canDeflect = true;
+        //     Slash();
         // }
-        if (Input.GetMouseButtonUp(1))
-        {
-            canDeflect = false;
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Die();
-        }
+        // if (Input.GetMouseButtonDown(0) && canDeflect)
+        // {
+        //     DeflectAnim();
+        // }
+
+        // if (Input.GetMouseButtonUp(1))
+        // {
+        //     canDeflect = false;
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.X))
+        // {
+        //     Die();
+        // }
+    }
+
+    public void DeflectAnim()
+    {
+        anim.SetTrigger("Deflect");
+    }
+
+    public void Slash()
+    {
+        anim.SetTrigger("Slash");
     }
 
     public void Die()
@@ -54,21 +62,21 @@ public class PlayerHover : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Bullet>())
-        {
-            canDeflect = true;
-            Bullet bullet = other.gameObject.GetComponent<Bullet>();
-            if (Input.GetMouseButtonDown(0) && canDeflect)
-            {
-                bullet.MoveTowardsEnemy();
-                bullet.isDeflected = true;
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.GetComponent<Bullet>())
+    //     {
+    //         canDeflect = true;
+    //         Bullet bullet = other.gameObject.GetComponent<Bullet>();
+    //         if (Input.GetMouseButtonDown(0) && canDeflect)
+    //         {
+    //             bullet.MoveTowardsEnemy();
+    //             bullet.isDeflected = true;
+    //             canDeflect = false;
+    //         }
+    //     }
+    // }
 
-            }
-
-        }
-    }
 
     private void OnCollisionEnter(Collision other)
     {

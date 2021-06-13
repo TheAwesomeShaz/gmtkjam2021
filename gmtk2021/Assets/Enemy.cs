@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    GameController gameController;
     public Transform target;
     [SerializeField]
     Animator anim;
@@ -22,20 +23,38 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         isAlive = true;
-
+        gameController = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerInRange)
+        if (playerInRange && isAlive)
         {
+            gameController.isDetected = true;
             transform.LookAt(target);
             StartCoroutine(WaitAndShoot(timeBtwnShots));
         }
 
 
 
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.GetComponent<Bullet>() && other.gameObject.GetComponent<Bullet>().isDeflected && isAlive)
+        {
+            Destroy(other.gameObject);
+            Die();
+        }
+
+        if (other.gameObject.GetComponent<Deflection>())
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Die();
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,11 +65,13 @@ public class Enemy : MonoBehaviour
             playerInRange = true;
             target = other.transform;
         }
-
-        if (other.GetComponent<Bullet>() && other.GetComponent<Bullet>().isDeflected && isAlive)
+        if (other.gameObject.GetComponent<Bullet>() && other.gameObject.GetComponent<Bullet>().isDeflected && isAlive)
         {
+            Destroy(other.gameObject);
             Die();
         }
+
+
     }
 
     IEnumerator WaitAndShoot(float time)
@@ -69,6 +90,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        gameController.isDetected = false;
         anim.enabled = false;
         isAlive = false;
     }
