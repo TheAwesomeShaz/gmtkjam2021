@@ -9,6 +9,7 @@ public class Deflection : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+
         if (other.GetComponent<Bullet>())
         {
             Debug.DrawLine(this.transform.position, other.transform.position);
@@ -21,23 +22,24 @@ public class Deflection : MonoBehaviour
             }
 
         }
+        else { return; }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Bullet>())
-        {
-            Debug.DrawLine(this.transform.position, other.transform.position);
-            mainChar.canDeflect = true;
-            Bullet bullet = other.gameObject.GetComponent<Bullet>();
-            if (Input.GetMouseButton(0) && mainChar.canDeflect)
-            {
-                StartCoroutine(MoveTowardsEnemyStart(bullet));
-                mainChar.DeflectAnim();
-            }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.GetComponent<Bullet>())
+    //     {
+    //         Debug.DrawLine(this.transform.position, other.transform.position);
+    //         mainChar.canDeflect = true;
+    //         Bullet bullet = other.gameObject.GetComponent<Bullet>();
+    //         if (Input.GetMouseButton(0) && mainChar.canDeflect)
+    //         {
+    //             StartCoroutine(MoveTowardsEnemyStart(bullet));
+    //             mainChar.DeflectAnim();
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
 
     private void OnTriggerExit(Collider other)
