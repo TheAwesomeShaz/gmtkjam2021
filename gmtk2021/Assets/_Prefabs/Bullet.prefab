@@ -227,6 +227,9 @@ MonoBehaviour:
   bulletOffset: {x: 0, y: 0.5, z: 0}
   Playerboi: {fileID: 0}
   Camboi: {fileID: 0}
+  matarr:
+  - {fileID: 2100000, guid: 1a7c2996f7d1e304abe775a504ae947f, type: 2}
+  - {fileID: 2100000, guid: 15ccc976e255c8140ba871c1bc9d33dc, type: 2}
 --- !u!65 &1151199709284032099
 BoxCollider:
   m_ObjectHideFlags: 0

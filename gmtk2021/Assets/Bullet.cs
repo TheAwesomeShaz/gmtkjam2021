@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour
     public Transform Playerboi;
     public Transform Camboi;
 
+    public Material[] matarr;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,15 @@ public class Bullet : MonoBehaviour
     }
     private void Update() {
         this.transform.position += this.transform.forward*Time.deltaTime*bulletSpeed;
+        if(isDeflected){
+            this.gameObject.GetComponent<MeshRenderer>().material = matarr[1];
+            this.gameObject.GetComponent<TrailRenderer>().material = matarr[1];
+        }else{
+            this.gameObject.GetComponent<MeshRenderer>().material = matarr[0];
+            this.gameObject.GetComponent<TrailRenderer>().material = matarr[0];
+        }
+        
+
     }
 
     private void OnTriggerEnter(Collider other) {
