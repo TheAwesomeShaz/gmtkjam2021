@@ -32,7 +32,7 @@ public class HoverBoard : MonoBehaviour
         if (Physics.Raycast(anchor.position, -anchor.up, out hit, 4f))
         {
             float force = 0;
-            force = Mathf.Abs(1 / (hit.point.y - anchor.position.y));
+            force = Mathf.Abs(1/1.5f*Mathf.Exp((hit.point.y - anchor.position.y))); //Sigmoid Controller
             rb.AddForceAtPosition(transform.up * force * multiplier, anchor.position, ForceMode.Acceleration);
         }
     }

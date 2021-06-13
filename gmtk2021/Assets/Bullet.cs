@@ -46,7 +46,6 @@ public class Bullet : MonoBehaviour
     {
         if (isDeflected && enemy.GetComponent<Enemy>().isAlive)
         {
-            // transform.position += enemy.position * bulletSpeed * Time.deltaTime;
             transform.position = Vector3.Lerp(transform.position, enemy.position, bulletSpeed * Time.deltaTime);
 
         }

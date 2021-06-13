@@ -7,7 +7,7 @@ public class PlayerHover : MonoBehaviour
 
     Animator anim;
     HoverBoard hoverBoard;
-    [SerializeField] bool canDeflect;
+    public bool canDeflect;
 
 
     // Start is called before the first frame update
@@ -54,21 +54,21 @@ public class PlayerHover : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Bullet>())
-        {
-            canDeflect = true;
-            Bullet bullet = other.gameObject.GetComponent<Bullet>();
-            if (Input.GetMouseButtonDown(0) && canDeflect)
-            {
-                bullet.MoveTowardsEnemy();
-                bullet.isDeflected = true;
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.GetComponent<Bullet>())
+    //     {
+    //         canDeflect = true;
+    //         Bullet bullet = other.gameObject.GetComponent<Bullet>();
+    //         if (Input.GetMouseButtonDown(0) && canDeflect)
+    //         {
+    //             bullet.MoveTowardsEnemy();
+    //             bullet.isDeflected = true;
 
-            }
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
     private void OnCollisionEnter(Collision other)
     {
