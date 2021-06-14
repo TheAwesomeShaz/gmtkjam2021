@@ -17,14 +17,6 @@ public class PlayerHover : MonoBehaviour
         hoverBoard = GetComponentInParent<HoverBoard>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
     public void DeflectAnim()
     {
         anim.SetTrigger("Deflect");
