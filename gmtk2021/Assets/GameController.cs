@@ -13,11 +13,11 @@ public class GameController : MonoBehaviour
 
     int currentSceneIndex;
 
-    [SerializeField] GameObject aboutButton;
-    [SerializeField] GameObject aboutMenu;
+    public GameObject aboutButton;
+    public GameObject aboutMenu;
 
     public GameObject endLevelScreen;
-    [SerializeField] GameObject pauseMenu;
+    public GameObject pauseMenu;
     bool isPaused;
 
     public AudioClip slowMoOn;
@@ -30,18 +30,18 @@ public class GameController : MonoBehaviour
     HoverBoard player;
     public bool isDetected;
     public float musicVolume = 0.7f;
-    bool slomosfxplayed;
+    public bool slomosfxplayed;
 
     public float decreasePitch = 0.7f;
 
-    [SerializeField] AudioSource ambientMusic;
-    [SerializeField] AudioSource drumsMusic;
+    public AudioSource ambientMusic;
+    public AudioSource drumsMusic;
 
-    [SerializeField] float slowdownFactor = 0.05f;
+    public float slowdownFactor = 0.05f;
     // [SerializeField] AudioSource gameMusic;
-    [SerializeField] float slowdownLength;
-    [SerializeField] AudioClip deflectSFX;
-    [SerializeField] AudioClip teleportSFX;
+    public float slowdownLength;
+    public AudioClip deflectSFX;
+    public AudioClip teleportSFX;
 
     // Start is called before the first frame update
     void Start()
@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void SlowDownTime()
+    public void SlowDownTime()
     {
         // PlaySlomoSFX(1);
         Time.timeScale = slowdownFactor;
