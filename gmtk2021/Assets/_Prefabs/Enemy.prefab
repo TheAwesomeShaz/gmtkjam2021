@@ -4642,7 +4642,7 @@ MonoBehaviour:
   target: {fileID: 0}
   anim: {fileID: 0}
   playerInRange: 0
-  timeBtwnShots: 3
+  timeBtwnShots: 2
   bullet: {fileID: 1151199709284032100, guid: 44b1119ad76d39840a40f29b75326b1c, type: 3}
   bulletPos: {fileID: 2261095407489852979}
   isAlive: 1

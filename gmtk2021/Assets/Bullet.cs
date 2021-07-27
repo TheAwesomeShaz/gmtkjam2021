@@ -22,33 +22,22 @@ public class Bullet : MonoBehaviour
         Camboi = FindObjectOfType<Camera>().transform;
         Destroy(gameObject, bulletLifetime);
     }
-    private void Update()
-    {
-        this.transform.position += this.transform.forward * Time.deltaTime * bulletSpeed;
-        if (isDeflected)
-        {
-            // this.gameObject.GetComponent<MeshRenderer>().material = matarr[1];
-            // this.gameObject.GetComponent<TrailRenderer>().material = matarr[1];
+    private void Update() {
+        this.transform.position += this.transform.forward*Time.deltaTime*bulletSpeed;
+        if(isDeflected){
+            this.gameObject.GetComponent<MeshRenderer>().material = matarr[1];
+            this.gameObject.GetComponent<TrailRenderer>().material = matarr[1];
+        }else{
+            this.gameObject.GetComponent<MeshRenderer>().material = matarr[0];
+            this.gameObject.GetComponent<TrailRenderer>().material = matarr[0];
         }
-        else
-        {
-            // this.gameObject.GetComponent<MeshRenderer>().material = matarr[0];
-            // this.gameObject.GetComponent<TrailRenderer>().material = matarr[0];
-        }
+        
+
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy") && isDeflected)
-        {
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.CompareTag("Enemy") && isDeflected){
             other.GetComponent<Enemy>().Die();
-            Destroy(this.gameObject);
-        }
-        if (other.gameObject.CompareTag("Player"))
-        {
-            other.GetComponent<HoverBoard>().KillPlayer();
-            other.GetComponent<PlayerHover>().Die();
-            Debug.Log("akjsdbakjsdnbaksjdb");
             Destroy(this.gameObject);
         }
     }

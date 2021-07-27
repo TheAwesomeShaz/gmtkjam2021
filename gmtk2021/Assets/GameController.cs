@@ -133,7 +133,8 @@ public class GameController : MonoBehaviour
         Time.fixedDeltaTime = Mathf.Clamp(Time.fixedDeltaTime, 0f, 0.01f);
 
         // Debug.Log(Time.timeScale);
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
 
         Controls();
