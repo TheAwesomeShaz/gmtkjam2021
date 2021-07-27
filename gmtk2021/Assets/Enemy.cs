@@ -47,8 +47,8 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator WaitAndShoot(float time)
     {
-        yield return new WaitForSeconds(time);
         anim.SetTrigger("Shoot");
+        yield return new WaitForSeconds(time);
     }
 
     private void Shoot()
