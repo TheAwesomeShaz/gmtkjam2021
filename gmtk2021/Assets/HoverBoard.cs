@@ -11,12 +11,6 @@ public class HoverBoard : MonoBehaviour
     [SerializeField] float multiplier;
     [SerializeField] float moveForce, turnTorque;
     [SerializeField] bool shiftPressed;
-
-    public float k_p = 1;
-    public float k_d = 1;
-    public float k_i = 1;
-    public float offsetSigma;
-    public float SigmaMultiplier;
     public bool isAlive = true;
     Bird bird;
 
@@ -24,9 +18,6 @@ public class HoverBoard : MonoBehaviour
     public Transform teleportTarget;
 
     public Transform[] anchors = new Transform[4];
-
-    public float[] OldForce = new float[]{0,0,0,0};
-
 
     RaycastHit[] hits = new RaycastHit[4];
 
@@ -41,27 +32,14 @@ public class HoverBoard : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
     }
 
-    void ApplyForce(Transform anchor, RaycastHit hit, float oldforce , int Index)
+    void ApplyForce(Transform anchor, RaycastHit hit)
     {
         if (Physics.Raycast(anchor.position, -anchor.up, out hit, 4f))
         {
-            Debug.DrawLine(this.transform.position,anchor.position);
-            
             float force = 0;
-            force = Mathf.Abs(1 / SigmaMultiplier*Mathf.Exp( hit.point.y - anchor.position.y - offsetSigma));
-            //PID Controller Implementation
-            var proportionalParameter = k_p * multiplier *force;
-            var differentialParameter = k_d * (force - oldforce)/ 0.5f*Time.deltaTime;
-            var integralParameter = k_i; // um how do i store buffer values?
-            var PIDForce = (proportionalParameter + differentialParameter + integralParameter);
-            Debug.DrawLine(anchor.position , anchor.position + PIDForce*0.5f *-transform.up, Color.blue); //force bein applied?
-            rb.AddForceAtPosition( transform.up * PIDForce, anchor.position, ForceMode.Acceleration);
-            OldForce[Index] = force;
+            force = Mathf.Abs(1 / (hit.point.y - anchor.position.y));
+            rb.AddForceAtPosition(transform.up * force * multiplier, anchor.position, ForceMode.Acceleration);
         }
-    }
-
-    void CalculateCentroid(){
-
     }
 
 
@@ -79,7 +57,6 @@ public class HoverBoard : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && canTeleport)
         {
             Teleport(teleportTarget);
-            gameController.PlayTeleportSFX();
         }
 
         //hoverboardSFX.pitch = rb.velocity.z / 5f;
@@ -91,7 +68,7 @@ public class HoverBoard : MonoBehaviour
     {
         player.Die();
         isAlive = false;
-        gameController.RestartLevel();
+
     }
 
     public void Teleport(Transform target)
@@ -116,19 +93,19 @@ public class HoverBoard : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            ApplyForce(anchors[i], hits[i] , OldForce[i] , i);
+            ApplyForce(anchors[i], hits[i]);
         }
 
 
-        rb.AddTorque(Input.GetAxis("Horizontal") * turnTorque * Time.deltaTime * transform.up);
+        rb.AddTorque(Input.GetAxis("Horizontal") * turnTorque * transform.up * Time.deltaTime);
         if (shiftPressed)
         {
-            rb.AddForce(Input.GetAxis("Vertical") * moveForce * 3f * transform.forward);
+            rb.AddForce(Input.GetAxis("Vertical") * moveForce * 2 * transform.forward *  Time.deltaTime);
         }
 
         else if (!shiftPressed)
         {
-            rb.AddForce(Input.GetAxis("Vertical") * moveForce * 2f *transform.forward);
+            rb.AddForce(Input.GetAxis("Vertical") * moveForce * transform.forward *  Time.deltaTime);
         }
     }
 }
